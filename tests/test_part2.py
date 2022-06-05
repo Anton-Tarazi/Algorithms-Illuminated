@@ -61,28 +61,6 @@ def test_topo_sort():
 
 
 def test_strong_connected_components():
-    test_graph4 = DirectedGraph()
-    test_graph4.add_edge_by_name(1, 3)
-    test_graph4.add_edge_by_name(3, 5)
-    test_graph4.add_edge_by_name(5, 1)
-    test_graph4.add_edge_by_name(3, 11)
-    test_graph4.add_edge_by_name(5, 9)
-    test_graph4.add_edge_by_name(5, 7)
-    test_graph4.add_edge_by_name(7, 9)
-    test_graph4.add_edge_by_name(11, 6)
-    test_graph4.add_edge_by_name(11, 8)
-    test_graph4.add_edge_by_name(9, 8)
-    test_graph4.add_edge_by_name(9, 4)
-    test_graph4.add_edge_by_name(4, 7)
-    test_graph4.add_edge_by_name(9, 2)
-    test_graph4.add_edge_by_name(2, 10)
-    test_graph4.add_edge_by_name(2, 4)
-    test_graph4.add_edge_by_name(6, 10)
-    test_graph4.add_edge_by_name(10, 8)
-    test_graph4.add_edge_by_name(8, 6)
-
-    assert sorted(test_graph4.strong_connected_components()) == [1, 3, 3, 4]
-
     assert sorted(get_tests.scc_test1.strong_connected_components()) == [3, 3, 3]
     assert sorted(get_tests.scc_test2.strong_connected_components()) == [2, 3, 3]
     assert sorted(get_tests.scc_test3.strong_connected_components()) == [1, 1, 3, 3]

@@ -1,5 +1,4 @@
 from itertools import combinations
-from random import randint
 
 
 def _count_split_inv(left, right):

@@ -294,21 +294,30 @@ class DirectedGraph(Graph):
         current_label -= 1
         return vertex_array, current_label
 
-    def strong_connected_components(self):
+    def strong_connected_components(self, return_list=False):
         """Kosaraju algorithm. Computes strongly connected components right directed graph.
         Returns list of sizes of connected components"""
+
+        # sort vertices in reverse topological order
         vertices_in_top_order = self.topo_sort(reverse=True, return_names=False)
         self.mark_unexplored()
 
         strong_ccs = []
         num_scc = 0
+        # iterate through all in reverse topological order
         for vertex in vertices_in_top_order[::-1]:
+            # call dfs on every unexplored vertex
             if not vertex.explored:
                 num_scc += 1
                 strong_ccs.append([])
                 strong_ccs = self.dfs_scc(vertex, num_scc, strong_ccs)
 
-        return [len(connected_component) for connected_component in strong_ccs]
+        # return either a list of ccs or just a list of their lengths depending
+        # on need
+        if return_list:
+            return strong_ccs
+        else:
+            return [len(connected_component) for connected_component in strong_ccs]
 
     def dfs_scc(self, vertex: DirectedVertex, num_scc: int, scc_list: list):
         """Helper dfs for Kosaraju algorithm. Works the same way but with some extra

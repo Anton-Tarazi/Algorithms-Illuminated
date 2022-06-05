@@ -44,6 +44,6 @@ def run(filename):
     print(f'{diff}, {ratio}')  # sub-optimal, optimal
 
 
-run("test_cases/problem13.4test.txt")  # 68615, 67247
+run("test_cases/part3_test_cases/problem13.4test.txt")  # 68615, 67247
 # run('problem13.4.txt')  # 69119377652, 67311454237
 
