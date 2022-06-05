@@ -43,5 +43,16 @@ def create_dijkstra_graph(filename: str) -> DirectedGraph:
 
 
 def create_job_list(filename: str) -> list[Job]:
-    pass
+    job_list = []
+    with open(filename, "r") as file:
+        for line in file:
+            weight_length_list = line.rstrip().split(sep=" ")
+            weight = int(weight_length_list[0])
+            length = int(weight_length_list[1])
+
+            new_job = Job(weight, length)
+            job_list.append(new_job)
+        return job_list
+
+
 

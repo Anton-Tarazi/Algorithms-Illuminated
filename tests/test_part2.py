@@ -148,5 +148,6 @@ def test_bst_median_maintenance_sum():
 
 
 def test_two_sum():
-    two_sum_test1 = generate_tests.create_list("../test_cases/part2_test_cases/problem12.4test.txt")
+    two_sum_test1 = \
+        generate_tests.create_list("../test_cases/part2_test_cases/problem12.4test.txt")
     assert two_sum(two_sum_test1, range(3, 11)) == 8
