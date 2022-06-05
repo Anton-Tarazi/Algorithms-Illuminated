@@ -3,29 +3,46 @@ from random import randint
 
 
 def _count_split_inv(left, right):
+    """Helper function to count_inv. Based on merge subroutine of mergesort and counts all instances
+    of the right array having elements larger than left array"""
+
+    # i is a counter for the left list, j is a counter for the right list, and
+    # split_count keeps track of how many split pairs there are between the left
+    # and right lists
     i, j, split_count = 0, 0, 0
     output = []
+    # iterate through all elements of both lists
     for k in range(len(left) + len(right)):
+
+        # if we've passed the end of the left list add all the remaining elements
+        # of the right list to the output and increment j accordingly
         if i >= len(left):
             output.append(right[j])
             j += 1
             continue
+        # if we've passed the end of the right  list add all the remaining elements
+        # of the left list to the output and increment i accordingly
         if j >= len(right):
             output.append(left[i])
             i += 1
             continue
 
+        # append smaller element to output list
         if left[i] <= right[j]:
             output.append(left[i])
             i += 1
         else:
             output.append(right[j])
             j += 1
+            # if smaller element is in the right list, we have as many inversions as there are
+            # elements remaining in the left list
             split_count += len(left) - i
     return output, split_count
 
 
 def _count_inv(array):
+    """Helper function for count_inv. Based on mergesort: recursively counts inversions in
+    left half of array, right half of array, and inversions between the two"""
     n = len(array)
     if n <= 1:
         return array, 0
@@ -39,27 +56,6 @@ def _count_inv(array):
 
 def count_inv(array):
     return _count_inv(array)[1]
-
-
-def mat_mult(a, b):
-    if len(a[0]) == len(b):
-        n = len(b)
-    else:
-        raise ValueError("Rows of array don't match columns of B")
-
-    out = []
-    for i in range(n):
-        out.append([])
-        for j in range(n):
-            new_entry = 0
-            for k in range(n):
-                new_entry += a[i][k] * b[k][j]
-            out[i].append(new_entry)
-    return out
-
-
-x = [[1, 2], [3, 4]]
-y = [[6, 7], [2, 2]]
 
 
 def _distance(point_pair):
@@ -77,8 +73,12 @@ def dist(point1, point2):
 def _closest_split_pair(x_sorted, y_sorted, delta):
     mid = len(x_sorted) // 2
     x_bar = x_sorted[mid][0]  # largest x coord in left half
+    # we only look at a subset of the points, those within delta of the midline, where delta
+    # is the closest distance that has already been found in the left or right halves
     y_restricted = [point for point in y_sorted if x_bar - delta < point[0] < x_bar + delta]
 
+    # determine the closest pair within this subset, or return None if there is no pair
+    # that has a distance less than delta
     closest = None
     closest_distance = delta
     for i in range(len(y_restricted) - 1):
@@ -90,7 +90,10 @@ def _closest_split_pair(x_sorted, y_sorted, delta):
 
 
 def _execute_closest_pair(x_sorted, y_sorted):
+    """Recursive helper function for closest pair"""
     n = len(x_sorted)
+
+    # base case of 3: find the closest pair by exhaustive search
     if n <= 3:
         return min(combinations(x_sorted, 2), key=_distance)
 
@@ -100,13 +103,15 @@ def _execute_closest_pair(x_sorted, y_sorted):
     rx = x_sorted[mid:]
     ry = y_sorted[mid:]
 
-    # each of these is a list of two points (tuples)
-    # ex [(1,2),(3,4)]
+    # find the closest pair in the left half of the points, and the closest pair in the right half
+    # each of these is a list of two points (tuples), ex. [(1,2),(3,4)]
     best_left = _execute_closest_pair(lx, ly)
     best_right = _execute_closest_pair(rx, ry)
 
+    # record the distance between the closest pair found within the left half or the right half
     smallest_so_far = _distance(min(best_left, best_right, key=_distance))
     best_split = _closest_split_pair(x_sorted, y_sorted, smallest_so_far)
+
     return min(best_left, best_right, best_split, key=_distance)
 
 
@@ -153,6 +158,8 @@ def equal_index(array, offset=0):
 
 
 def inefficient_closest(points):
+    """Compute closest pair via exhaustive search- O(n^2) runtime. Purpose of this function is
+    a comparison to check correctness of the efficient implementation of closest pair"""
     closest = None
     closest_distance = float('inf')
     for i in range(0, len(points) - 1):
@@ -162,9 +169,3 @@ def inefficient_closest(points):
                 closest = (points[i], points[j])
     return closest
 
-
-test_points = [(randint(0, 100), randint(0, 100)) for i in range(10)]
-print(test_points)
-print(closest_pair(test_points))
-print(inefficient_closest(test_points))
-print(closest_pair(test_points) == inefficient_closest(test_points))

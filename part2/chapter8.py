@@ -69,8 +69,8 @@ class Graph:
             vertex.explored = False
         source_vertex.explored = True
 
-        source_vertex._distance = 0
-        min_distances = [{source_vertex.name: source_vertex._distance}]
+        source_vertex.dist = 0
+        min_distances = [{source_vertex.name: source_vertex.dist}]
 
         q = queue.Queue()
         q.put(source_vertex)
@@ -79,9 +79,9 @@ class Graph:
             for vertex in self.vertices[v]:
                 if not vertex.explored:
                     vertex.explored = True
-                    vertex._distance = v._distance + 1
+                    vertex.dist = v.dist + 1
                     q.put(vertex)
-                    min_distances.append({vertex.name: vertex._distance})
+                    min_distances.append({vertex.name: vertex.dist})
 
         return min_distances
 
