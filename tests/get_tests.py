@@ -1,7 +1,7 @@
 import requests
 
-from chapter9 import DirectedGraph
-from chapter13 import Job, greedy_difference
+from part2.chapter9 import DirectedGraph
+from part3.chapter13 import Job, greedy_difference
 
 
 def create_list(link):
@@ -85,7 +85,3 @@ med_main_test2 = create_list2("https://algorithmsilluminated.org/datasets/proble
 
 two_sum_test1 = create_list2("https://algorithmsilluminated.org/datasets/problem12.4test.txt")
 
-greedy_scheduling_test1 = create_jobs("test_cases/problem13.4test.rtf")
-x = greedy_difference(greedy_scheduling_test1)
-print(x)
-print([job.weight - job.length for job in x])

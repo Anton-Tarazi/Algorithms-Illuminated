@@ -1,7 +1,7 @@
 import queue
 from abc import ABC, abstractmethod
 
-from chapter10 import MinHeap
+from part2.chapter10 import MinHeap
 
 
 class Vertex(ABC):

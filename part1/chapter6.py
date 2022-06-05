@@ -1,4 +1,4 @@
-from chapter5 import _partition
+from part1.chapter5 import _partition
 
 
 def _select(array, search_index, left, right):

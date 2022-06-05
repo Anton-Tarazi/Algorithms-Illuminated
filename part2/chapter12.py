@@ -1,6 +1,3 @@
-import get_tests
-
-
 def two_sum(array, target_range):
     """Returns number of distinct pairs of entries in an array
     sum to a value contained in the target range"""

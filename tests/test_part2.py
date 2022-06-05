@@ -1,8 +1,8 @@
-import get_tests
-from chapter9 import UndirectedGraph, DirectedGraph
-from chapter10 import heap_median_maintenance_sum
-from chapter11 import bst_median_maintenance_sum
-from chapter12 import two_sum
+from tests import get_tests
+from part2.chapter9 import UndirectedGraph, DirectedGraph
+from part2.chapter10 import heap_median_maintenance_sum
+from part2.chapter11 import bst_median_maintenance_sum
+from part2.chapter12 import two_sum
 
 test_graph1 = UndirectedGraph()
 test_graph1.add_edge_by_name(1, 3)

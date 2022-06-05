@@ -1,9 +1,9 @@
-from chapter1 import mergesort
-from chapter3 import count_inv, closest_pair, inefficient_closest
-from chapter5 import quicksort, left_pivot, right_pivot, median_pivot
-from chapter6 import select
+from part1.chapter1 import mergesort
+from part1.chapter3 import count_inv, closest_pair, inefficient_closest
+from part1.chapter5 import quicksort, left_pivot, right_pivot, median_pivot
+from part1.chapter6 import select
 
-import get_tests
+from tests import get_tests
 
 
 def test_mergesort():
