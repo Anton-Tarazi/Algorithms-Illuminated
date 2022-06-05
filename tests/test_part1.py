@@ -32,7 +32,7 @@ def test_count_inv():
 
 
 def test_closest_pair():
-    # note we check the reversed order as well because the two closest pair
+    # we check the reversed order as well because the two closest pair
     # functions may return the pair in different orders
     points1 = [(46, 16), (15, 65), (30, 100), (4, 28), (90, 54), (90, 58),
                (95, 30), (34, 48), (13, 53), (93, 86)]
