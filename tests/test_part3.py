@@ -1,6 +1,8 @@
 from tests import generate_tests
 from part3.chapter13 import sum_weighted_completion_times, greedy_difference, greedy_ratio
 
+from part2.chapter10 import MinHeap
+
 
 greedy_scheduling_test1 = \
     generate_tests.create_job_list("../test_cases/part3_test_cases/problem13.4test.txt")
@@ -33,3 +35,8 @@ def test_greedy_ratio():
     # https://github.com/claytonjwong/Algorithms-Illuminated/blob/main/greedy_scheduling/main.py
     ratio_schedule2 = greedy_ratio(greedy_scheduling_test2)
     assert sum_weighted_completion_times(ratio_schedule2) == 67311454237
+
+
+def test_huffman_codes():
+    alphabet1 = generate_tests.create_alphabet("../test_cases/part3_test_cases/problem14.6test1.txt")
+

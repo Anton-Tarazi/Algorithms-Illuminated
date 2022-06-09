@@ -1,5 +1,6 @@
 from part2.chapter9 import DirectedGraph, UndirectedGraph
 from part3.chapter13 import Job
+from part3.chapter14 import HuffNode
 
 
 # A collection of functions that generate data structures from text files.
@@ -54,5 +55,14 @@ def create_job_list(filename: str) -> list[Job]:
             job_list.append(new_job)
         return job_list
 
+
+def create_alphabet(filename: str) -> list[HuffNode]:
+    alphabet = []
+    with open(filename, "r") as file:
+        for line in file:
+            frequency = int(line.rstrip())
+            new_symbol = HuffNode("x", frequency)
+            alphabet.append(new_symbol)
+        return alphabet
 
 
