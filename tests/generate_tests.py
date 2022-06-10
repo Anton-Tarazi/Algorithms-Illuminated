@@ -59,9 +59,9 @@ def create_job_list(filename: str) -> list[Job]:
 def create_alphabet(filename: str) -> list[HuffNode]:
     alphabet = []
     with open(filename, "r") as file:
-        for line in file:
+        for index, line in enumerate(file):
             frequency = int(line.rstrip())
-            new_symbol = HuffNode("x", frequency)
+            new_symbol = HuffNode(str(index), frequency)
             alphabet.append(new_symbol)
         return alphabet
 

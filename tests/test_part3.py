@@ -1,7 +1,6 @@
 from tests import generate_tests
 from part3.chapter13 import sum_weighted_completion_times, greedy_difference, greedy_ratio
-
-from part2.chapter10 import MinHeap
+from part3.chapter14 import huffman_code, min_max_encoding_lengths
 
 
 greedy_scheduling_test1 = \
@@ -39,4 +38,15 @@ def test_greedy_ratio():
 
 def test_huffman_codes():
     alphabet1 = generate_tests.create_alphabet("../test_cases/part3_test_cases/problem14.6test1.txt")
+    huffman_code1 = huffman_code(alphabet1)
+    assert min_max_encoding_lengths(huffman_code1) == (2, 5)
 
+    alphabet2 = generate_tests.create_alphabet("../test_cases/part3_test_cases/problem14.6test2.txt")
+    huffman_code2 = huffman_code(alphabet2)
+    assert min_max_encoding_lengths(huffman_code2) == (3, 6)
+
+    # compared solution to
+    # https://github.com/claytonjwong/Algorithms-Illuminated/blob/main/huffman/main.py
+    alphabet3 = generate_tests.create_alphabet("../test_cases/part3_test_cases/problem14.6.txt")
+    huffman_code3 = huffman_code(alphabet3)
+    assert min_max_encoding_lengths(huffman_code3) == (9, 19)
