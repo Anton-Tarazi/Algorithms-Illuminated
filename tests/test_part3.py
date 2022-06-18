@@ -1,6 +1,7 @@
 from tests import generate_tests
 from part3.chapter13 import sum_weighted_completion_times, greedy_difference, greedy_ratio
 from part3.chapter14 import huffman_code, min_max_encoding_lengths
+from part3.chapter15 import SpanningTree
 
 
 greedy_scheduling_test1 = \
@@ -50,3 +51,36 @@ def test_huffman_codes():
     alphabet3 = generate_tests.create_alphabet("../test_cases/part3_test_cases/problem14.6.txt")
     huffman_code3 = huffman_code(alphabet3)
     assert min_max_encoding_lengths(huffman_code3) == (9, 19)
+
+
+mst_test1 = \
+    generate_tests.create_prim_graph("../test_cases/part3_test_cases/problem15.9test.txt")
+
+mst_test2 = \
+    generate_tests.create_prim_graph("../test_cases/part3_test_cases/problem15.9.txt")
+
+
+def test_prim():
+    tree1 = mst_test1.prim()
+    tree1.display()
+    assert tree1.size() == 14
+
+    # solution from https://github.com/claytonjwong/Algorithms-Illuminated/blob/main/prim/main.py
+    tree2 = mst_test2.prim()
+    assert tree2.size() == -3612829
+
+
+def test_efficient_prim():
+    tree1 = mst_test1.efficient_prim()
+    assert tree1.size() == 14
+
+    tree2 = mst_test2.efficient_prim()
+    assert tree2.size() == -3612829
+
+
+def test_kruskal():
+    tree1 = mst_test1.kruskal()
+    assert tree1.size() == 14
+
+    tree2 = mst_test2.kruskal()
+    assert tree2.size() == -3612829

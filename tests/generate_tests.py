@@ -1,6 +1,7 @@
-from part2.chapter9 import DirectedGraph, UndirectedGraph
+from part2.chapter9 import UndirectedGraph, DirectedGraph
 from part3.chapter13 import Job
 from part3.chapter14 import HuffNode
+from part3.chapter15 import MSTGraph
 
 
 # A collection of functions that generate data structures from text files.
@@ -14,6 +15,18 @@ def create_list(filename: str) -> list[int]:
         for line in file:
             output_list.append(int(line.rstrip()))
         return output_list
+
+
+def create_prim_graph(filename: str) -> MSTGraph:
+    new_graph = MSTGraph()
+    with open(filename, "r") as file:
+        for line in file:
+            edge_data = line.rstrip().split(sep=" ")
+            vertex_1 = int(edge_data[0])
+            vertex_2 = int(edge_data[1])
+            weight = int(edge_data[2])
+            new_graph.add_edge_by_name(vertex_1, vertex_2, weight)
+        return new_graph
 
 
 def create_directed_graph(filename: str) -> DirectedGraph:
@@ -64,5 +77,3 @@ def create_alphabet(filename: str) -> list[HuffNode]:
             new_symbol = HuffNode(str(index), frequency)
             alphabet.append(new_symbol)
         return alphabet
-
-

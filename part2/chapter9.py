@@ -47,6 +47,14 @@ class Edge:
 
 
 class UndirectedEdge(Edge):
+    def one_vertex_explored(self):
+        return (self.from_vertex.explored and not self.to_vertex.explored) or \
+               (not self.from_vertex.explored and self.to_vertex.explored)
+
+    def mark_vertices_explored(self):
+        self.from_vertex.explored = True
+        self.to_vertex.explored = True
+
     def __str__(self):
         if self.weight != 1:
             return f"{self.weight}: {self.from_vertex.name} <-> {self.to_vertex.name}"
@@ -80,10 +88,6 @@ class Graph(ABC):
     def add_vertex_by_obj(self, vertex: Vertex):
         """Adds vertex object to self.vertices"""
         self.vertices[vertex.name] = vertex
-
-    @abstractmethod
-    def add_edge_by_name(self, from_vertex_name: int, to_vertex_name: int):
-        raise NotImplementedError
 
     @abstractmethod
     def display(self):
@@ -170,9 +174,9 @@ class UndirectedGraph(Graph):
         """Adds new edge to graph. Edge is added to adjacency lists of both vertices.
         If the vertices aren't in the graph they will be added"""
         if self.vertices.get(from_vertex_name) is None:
-            self.vertices[from_vertex_name] = UndirectedVertex(from_vertex_name)
+            self.add_vertex_by_name(from_vertex_name)
         if self.vertices.get(to_vertex_name) is None:
-            self.vertices[to_vertex_name] = UndirectedVertex(to_vertex_name)
+            self.add_vertex_by_name(to_vertex_name)
 
         from_vertex = self.vertices[from_vertex_name]
         to_vertex = self.vertices[to_vertex_name]
@@ -188,8 +192,8 @@ class UndirectedGraph(Graph):
         self.edges.append(forward_edge)
 
     def display(self):
-        """Prints out the graph"""
-        for name, vertex in self.vertices.items():
+        """Print out the graph"""
+        for name, vertex in sorted(self.vertices.items()):
             print(f"vertex: {name}, adjacent edges: "
                   f"{[str(adjacent_edge) for adjacent_edge in vertex.adjacent_edges]}")
 
@@ -249,8 +253,8 @@ class DirectedGraph(Graph):
         self.edges.append(new_edge)
 
     def display(self):
-        """Prints out the graph"""
-        for name, vertex in self.vertices.items():
+        """Print out the graph"""
+        for name, vertex in sorted(self.vertices.items()):
             print(f"vertex: {name}, outgoing edges: "
                   f"{[str(outgoing_edge) for outgoing_edge in vertex.outgoing_edges]}")
 
