@@ -4,22 +4,35 @@ from part2.chapter9 import UndirectedVertex, UndirectedEdge, UndirectedGraph
 from part2.chapter10 import MinHeap
 
 
-class PrimVertex(UndirectedVertex):
+class MSTVertex(UndirectedVertex):
 
     def __init__(self, name):
         super().__init__(name)
         self.key = float('inf')
+
+        # prim initialization
         self.prim_winner = None
+
+        # union find initialization
+        self.parent = self
+        self.size = 1
 
 
 class MSTGraph(UndirectedGraph):
 
-    def __init__(self):
+    def __init__(self, graph=None):
         super().__init__()
+
+        # can pass a graph into the initialization to create a copy
+        # of all the vertices
+        if graph is not None:
+            for vertex_name in graph.vertices.keys():
+                copy_vertex = MSTVertex(vertex_name)
+                self.add_vertex_by_obj(copy_vertex)
 
     def add_vertex_by_name(self, name: int):
         """Adds new vertex object to graph given vertex name"""
-        new_vertex = PrimVertex(name)
+        new_vertex = MSTVertex(name)
         self.add_vertex_by_obj(new_vertex)
 
     def clear_prim_winners(self):
@@ -33,7 +46,7 @@ class MSTGraph(UndirectedGraph):
         starting_vertex = random.choice(list(self.vertices.values()))
         starting_vertex.explored = True
 
-        spanning_tree = SpanningTree(self)
+        spanning_tree = MSTGraph(self)
 
         while True:
             min_weight = float('inf')
@@ -63,7 +76,7 @@ class MSTGraph(UndirectedGraph):
 
         # choose arbitrary starting vertex and initialize spanning tree
         starting_vertex = random.choice(list(self.vertices.values()))
-        spanning_tree = SpanningTree(self)
+        spanning_tree = MSTGraph(self)
 
         self.clear_distances()
         self.mark_unexplored()
@@ -111,7 +124,10 @@ class MSTGraph(UndirectedGraph):
 
     def kruskal(self):
         """Straightforward implementation of kruskals algorithm. O(mn) runtime"""
-        spanning_tree = SpanningTree(self)
+        spanning_tree = MSTGraph(self)
+
+        # sort the edges and iterate from lowest to highest weight, adding an edge
+        # to the spanning tree the endpoints do not already contain a path
         sorted_edges = sorted(self.edges, key=lambda e: e.weight)
         for edge in sorted_edges:
             if not spanning_tree.has_path(edge.from_vertex.name, edge.to_vertex.name):
@@ -119,15 +135,52 @@ class MSTGraph(UndirectedGraph):
 
         return spanning_tree
 
+    def efficient_kruskal(self):
+        """Union find implementation of kruskals algorithm. O((m+n)log n) runtime"""
+        spanning_tree = MSTGraph(self)
+        sorted_edges = sorted(self.edges, key=lambda e: e.weight)
+        edges_added = 0
+        for edge in sorted_edges:
+            # if the edpoints of the edge aren't in the same set, add the
+            # edge to the spanning tree and merge union the two sets
+            if self.find(edge.to_vertex) != self.find(edge.from_vertex):
+                spanning_tree.add_edge(edge)
 
-class SpanningTree(UndirectedGraph):
+                self.union(edge.to_vertex, edge.from_vertex)
 
-    def __init__(self, graph: MSTGraph):
-        """Initialize a graph with only the same vertices as the parent graph"""
-        super().__init__()
-        for vertex_name in graph.vertices.keys():
-            copy_vertex = PrimVertex(vertex_name)
-            self.add_vertex_by_obj(copy_vertex)
+                # when n - 1 edges have been added we can break out of the loop
+                edges_added += 1
+                if edges_added >= len(self.vertices) - 1:
+                    break
+
+        return spanning_tree
+
+    def find(self, vertex: MSTVertex):
+        """Returns the name of the set that contains the vertex. O(log n) runtime"""
+        if vertex.parent == vertex:
+            return vertex
+        else:
+            return self.find(vertex.parent)
+
+    def union(self, vertex1: MSTVertex, vertex2: MSTVertex):
+        """Merge the sets that contain the two vertices. O(log n) runtime."""
+
+        # get references names of sets of each vertex
+        vertex1_parent = self.find(vertex1)
+        vertex2_parent = self.find(vertex2)
+
+        # if the vertices are in the same set, return
+        if vertex1_parent == vertex2_parent:
+            return
+
+        # set the parent of the smaller set to be the parent of the
+        # larger set
+        if vertex1_parent.size >= vertex2_parent.size:
+            vertex2_parent.parent = vertex1_parent
+            vertex1_parent.size += vertex2_parent.size
+        else:
+            vertex1_parent.parent = vertex2_parent
+            vertex2_parent.size += vertex1_parent.size
 
     def add_edge(self, edge: UndirectedEdge):
         """Adds an equivalent version of an edge from the parent graph to the
@@ -152,23 +205,3 @@ class SpanningTree(UndirectedGraph):
 
     def has_path(self, vertex1_name: int, vertex2_name: int) -> bool:
         return vertex2_name in self.dfs(vertex1_name)
-
-
-class UnionObject:
-
-    def __init__(self, value):
-        self.value = value
-        self.parent = self
-        self.size = 1
-
-
-class UnionFind:
-
-    def __init__(self, array):
-        self.data = []
-        for entry in array:
-            new_obj = UnionObject(entry)
-            self.data.append(new_obj)
-
-    def find(self, value):
-        pass

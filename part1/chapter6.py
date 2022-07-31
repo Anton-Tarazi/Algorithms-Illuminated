@@ -8,12 +8,12 @@ def _select(array, search_index, left, right):
 
     pivot_index = _partition(array, left, right)
 
-    if pivot_index - left == search_index - 1:
+    if pivot_index == search_index - 1:
         return array[pivot_index]
-    elif pivot_index - left > search_index - 1:
+    elif pivot_index > search_index - 1:
         return _select(array, search_index, left, pivot_index - 1)
     else:
-        return _select(array, search_index - pivot_index + left - 1, pivot_index + 1, right)
+        return _select(array, search_index, pivot_index + 1, right)
 
 
 def select(array, index):

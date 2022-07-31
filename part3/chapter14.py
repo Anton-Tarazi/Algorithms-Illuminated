@@ -31,7 +31,7 @@ def huffman_code(alphabet: list[HuffNode]) -> InnerNode:
 
     # while the queue has more than one entry, combine the two trees with the smallest
     # frequencies into one and reinsert it back into the queue
-    while priority_q.size() >= 2:
+    while priority_q.size() > 1:
         min_tree = priority_q.extract_min()
         second_min_tree = priority_q.extract_min()
 

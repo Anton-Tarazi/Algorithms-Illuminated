@@ -1,12 +1,12 @@
-from part2.chapter9 import UndirectedGraph, DirectedGraph
+from part2.chapter9 import DirectedGraph
 from part3.chapter13 import Job
 from part3.chapter14 import HuffNode
 from part3.chapter15 import MSTGraph
-
+from part3.chapter16 import KnapsackItem
 
 # A collection of functions that generate data structures from text files.
 # Used to get the test cases from https://algorithmsilluminated.org/ to check
-# the validity of my implementations.
+# my implementations.
 
 
 def create_list(filename: str) -> list[int]:
@@ -17,7 +17,7 @@ def create_list(filename: str) -> list[int]:
         return output_list
 
 
-def create_prim_graph(filename: str) -> MSTGraph:
+def create_mst_graph(filename: str) -> MSTGraph:
     new_graph = MSTGraph()
     with open(filename, "r") as file:
         for line in file:
@@ -77,3 +77,29 @@ def create_alphabet(filename: str) -> list[HuffNode]:
             new_symbol = HuffNode(str(index), frequency)
             alphabet.append(new_symbol)
         return alphabet
+
+
+def create_knapsack_item_list(filename: str) -> list[KnapsackItem]:
+    items = []
+    with open(filename, "r") as file:
+        for line in file:
+            value_weight_list = line.rstrip().split(sep=" ")
+            value = int(value_weight_list[0])
+            weight = int(value_weight_list[1])
+            new_item = KnapsackItem(value, weight)
+            items.append(new_item)
+        return items
+
+
+def create_sequences(filename: str) -> tuple:
+    sequences = []
+    with open(filename, "r") as file:
+        for line in file:
+            sequences.append(line.rstrip())
+        return tuple(sequences)
+
+
+def create_frequencies(filename: str) -> list[int]:
+    with open(filename, "r") as file:
+        frequencies_strs = file.readline().rstrip().split(sep=",")
+        return [int(x) for x in frequencies_strs]
