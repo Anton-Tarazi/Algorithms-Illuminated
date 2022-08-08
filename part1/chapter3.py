@@ -167,4 +167,3 @@ def inefficient_closest(points):
                 closest_distance = dist(points[i], points[j])
                 closest = (points[i], points[j])
     return closest
-

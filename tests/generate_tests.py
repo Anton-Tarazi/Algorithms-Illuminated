@@ -3,9 +3,10 @@ from part3.chapter13 import Job
 from part3.chapter14 import HuffNode
 from part3.chapter15 import MSTGraph
 from part3.chapter16 import KnapsackItem
+from part3.chapter18 import NegativeEdgeGraph
 
 # A collection of functions that generate data structures from text files.
-# Used to get the test cases from https://algorithmsilluminated.org/ to check
+# Used to get the test cases from https://algorithmsilluminated.org/ to verify
 # my implementations.
 
 
@@ -17,16 +18,26 @@ def create_list(filename: str) -> list[int]:
         return output_list
 
 
-def create_mst_graph(filename: str) -> MSTGraph:
-    new_graph = MSTGraph()
+def create_special_graph(graph, filename: str):
     with open(filename, "r") as file:
         for line in file:
             edge_data = line.rstrip().split(sep=" ")
             vertex_1 = int(edge_data[0])
             vertex_2 = int(edge_data[1])
             weight = int(edge_data[2])
-            new_graph.add_edge_by_name(vertex_1, vertex_2, weight)
-        return new_graph
+            graph.add_edge_by_name(vertex_1, vertex_2, weight)
+
+
+def create_mst_graph(filename: str) -> MSTGraph:
+    new_graph = MSTGraph()
+    create_special_graph(new_graph, filename)
+    return new_graph
+
+
+def create_negative_edge_graph(filename: str) -> NegativeEdgeGraph:
+    new_graph = NegativeEdgeGraph()
+    create_special_graph(new_graph, filename)
+    return new_graph
 
 
 def create_directed_graph(filename: str) -> DirectedGraph:

@@ -148,4 +148,36 @@ def test_efficient_optimal_bst():
     assert efficient_optimal_bst(opbst_test2) == 2780
 
 
+graph_test1 = \
+    generate_tests.create_negative_edge_graph("../test_cases/part3_test_cases/problem18.8test1.txt")
+
+graph_test2 = \
+    generate_tests.create_negative_edge_graph("../test_cases/part3_test_cases/problem18.8test2.txt")
+
+
+def test_bellman_ford():
+    min_length = float('inf')
+    for i in range(1, 5):
+        min_length = min(min_length, min(graph_test1.bellman_ford(i)))
+    assert min_length == -2
+
+    assert graph_test2.bellman_ford(1) == "NEGATIVE CYCLE"
+
+
+def test_clean_bellman_ford():
+    assert graph_test1.clean_bellman_ford(2) == graph_test1.bellman_ford(2)
+    assert graph_test2.bellman_ford(3) == "NEGATIVE CYCLE"
+
+
+def test_floyd_marshall():
+    all_pairs_shortest = graph_test1.floyd_marshall()
+    for i, row in enumerate(all_pairs_shortest):
+        assert row == graph_test1.bellman_ford(i + 1)
+
+    assert graph_test2.floyd_marshall() == "NEGATIVE CYCLE"
+
+
+
+
+
 
